@@ -34,7 +34,17 @@ headers = {
 
 try:
     with open("credentials.txt", "r", encoding="utf-8") as file:
-        credentials = [line.strip().split(":") for line in file if ":" in line]
+        credentials = []
+        for line in file:
+            line = line.strip()
+            if ":" in line:
+                parts = line.split(":", 1)  # Split only at the first ':'
+                if len(parts) == 2:
+                    credentials.append(parts)
+                else:
+                    print(f"Invalid format, skipping line: {line}")
+            else:
+                print(f"No ':' separator, skipping line: {line}")
 except FileNotFoundError:
     print("Error: The 'credentials.txt' file was not found.")
     exit()
